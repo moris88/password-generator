@@ -9,15 +9,22 @@ export default function App() {
 			<h1 className="mb-6 text-center font-bold text-2xl text-white">
 				Security Suite Manager
 			</h1>
-			<div className="flex items-center justify-between gap-6">
-				<div className="flex flex-col items-center gap-6">
+
+			{/* Usiamo items-start per allineare in alto le due colonne */}
+			<div className="flex w-full max-w-5xl items-start justify-between gap-6">
+
+				{/* Colonna di sinistra (Generatori) */}
+				<div className="flex flex-1 flex-col items-center gap-6">
 					<PasswordGenerator />
 					<PassphraseGenerator />
+				</div>
+
+				{/* Colonna di destra (SecurityTips + HistoryList) */}
+				<div className="flex flex-1 flex-col items-center gap-6">
+					<SecurityTips />
 					<HistoryList />
 				</div>
-				<div className="flex flex-col items-center gap-6">
-					<SecurityTips />
-				</div>
+
 			</div>
 		</div>
 	)

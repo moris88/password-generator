@@ -24,7 +24,7 @@ export const HistoryList: React.FC = () => {
 					Svuota Cronologia
 				</button>
 			</div>
-			<div className="max-h-48 space-y-2 overflow-y-auto pr-1">
+			<div className="max-h-68 space-y-2 overflow-y-auto pr-1">
 				{history.map((item) => (
 					<div
 						key={item.id}
