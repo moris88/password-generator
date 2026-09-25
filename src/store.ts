@@ -1,15 +1,15 @@
-import { atomWithStorage } from "jotai/utils";
+import { atomWithStorage } from 'jotai/utils'
 
 export interface HistoryItem {
-  id: string;
-  value: string;
-  type: "password" | "passphrase";
-  entropy: number;
-  createdAt: string;
+	id: string
+	value: string
+	type: 'password' | 'passphrase'
+	entropy: number
+	createdAt: string
 }
 
 // Salvataggio persistente della cronologia nel localStorage
 export const passwordHistoryAtom = atomWithStorage<HistoryItem[]>(
-  "pwd_generator_history",
-  [],
-);
+	'pwd_generator_history',
+	[],
+)

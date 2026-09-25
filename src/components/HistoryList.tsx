@@ -1,49 +1,54 @@
-import React from 'react';
-import { useAtom } from 'jotai';
-import { passwordHistoryAtom } from '../store';
-import { getResultEntropia } from '../utils';
+import { useAtom } from 'jotai'
+import type React from 'react'
+import { passwordHistoryAtom } from '../store'
+import { getResultEntropia } from '../utils'
 
 export const HistoryList: React.FC = () => {
-  const [history, setHistory] = useAtom(passwordHistoryAtom);
+	const [history, setHistory] = useAtom(passwordHistoryAtom)
 
-  const clearHistory = () => {
-    setHistory([]);
-  };
+	const clearHistory = () => {
+		setHistory([])
+	}
 
-  if (history.length === 0) return null;
+	if (history.length === 0) return null
 
-  return (
-    <div className="bg-slate-900 text-slate-100 p-6 rounded-2xl shadow-xl max-w-lg w-full border border-slate-800 mt-6">
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-bold text-slate-200">Cronologia Recenti</h3>
-        <button
-          onClick={clearHistory}
-          className="text-xs bg-red-900/40 hover:bg-red-900/60 text-red-300 px-2.5 py-1 rounded-lg border border-red-800/50 transition-colors"
-        >
-          Svuota Cronologia
-        </button>
-      </div>
-      <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
-        {history.map((item) => (
-          <div
-            key={item.id}
-            className="bg-slate-950 p-3 rounded-xl flex items-center justify-between text-sm border border-slate-800"
-          >
-            <div className="truncate mr-2">
-              <span className="font-mono text-slate-300 block truncate">{item.value}</span>
-              <span className="text-[10px] text-slate-500">
-                {item.type.toUpperCase()} • {item.entropy} bits • {getResultEntropia(item.entropy).level} • {item.createdAt}
-              </span>
-            </div>
-            <button
-              onClick={() => navigator.clipboard.writeText(item.value)}
-              className="text-xs bg-slate-800 hover:bg-slate-700 px-2 py-1 rounded text-slate-300 shrink-0"
-            >
-              Copia
-            </button>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
+	return (
+		<div className="mt-6 w-full max-w-lg rounded-2xl border border-slate-800 bg-slate-900 p-6 text-slate-100 shadow-xl">
+			<div className="mb-4 flex items-center justify-between">
+				<h3 className="font-bold text-lg text-slate-200">Cronologia Recenti</h3>
+				<button
+					type="button"
+					onClick={clearHistory}
+					className="rounded-lg border border-red-800/50 bg-red-900/40 px-2.5 py-1 text-red-300 text-xs transition-colors hover:bg-red-900/60"
+				>
+					Svuota Cronologia
+				</button>
+			</div>
+			<div className="max-h-48 space-y-2 overflow-y-auto pr-1">
+				{history.map((item) => (
+					<div
+						key={item.id}
+						className="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-950 p-3 text-sm"
+					>
+						<div className="mr-2 truncate">
+							<span className="block truncate font-mono text-slate-300">
+								{item.value}
+							</span>
+							<span className="text-[10px] text-slate-500">
+								{item.type.toUpperCase()} • {item.entropy} bits •{' '}
+								{getResultEntropia(item.entropy).level} • {item.createdAt}
+							</span>
+						</div>
+						<button
+							type="button"
+							onClick={() => navigator.clipboard.writeText(item.value)}
+							className="shrink-0 rounded bg-slate-800 px-2 py-1 text-slate-300 text-xs hover:bg-slate-700"
+						>
+							Copia
+						</button>
+					</div>
+				))}
+			</div>
+		</div>
+	)
+}

@@ -1,75 +1,136 @@
-# React + TypeScript + Vite
+# Security Suite Manager
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Applicazione web per generare password e passphrase sicure, valutare la loro entropia e tenere traccia delle ultime creazioni locali.
 
-Currently, two official plugins are available:
+## Panoramica
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Questo progetto è un piccolo tool di sicurezza pensato per aiutare a creare credenziali robuste in modo semplice e veloce. Include due generatori principali:
 
-## React Compiler
+- Generatore di password tradizionali
+- Generatore di passphrase con parole casuali
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+L’app mostra inoltre una stima dell’entropia e del tempo necessario per un eventuale brute-force, oltre a una cronologia locale delle ultime credenziali generate.
 
-## Expanding the ESLint configuration
+## Funzionalità
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Generatore password
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Lunghezza configurabile da 8 a 32 caratteri
+- Selezione di minuscole, maiuscole, numeri e simboli
+- Generazione sicura con `crypto.getRandomValues()`
+- Calcolo dell’entropia in bit
+- Stima del tempo di decifrazione
+- Copia negli appunti
+- Validazione: almeno un set di caratteri deve essere selezionato
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Generatore passphrase
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Numero di parole configurabile
+- Selettore del separatore (`-`, `_`, `.`, spazio, `/`)
+- Opzioni avanzate come:
+  - iniziale maiuscola
+  - numeri per parola
+  - parole invertite
+  - simbolo finale extra
+- Generazione basata su un dizionario di parole
+- Stima di sicurezza simile al generatore di password
 
+### Extra
+
+- Cronologia delle ultime credenziali salvata in `localStorage`
+- Pulsante per svuotare la cronologia
+- Suggerimenti pratici per la sicurezza
+- Interfaccia a card con design dark moderno
+
+## Stack tecnologico
+
+- React 19
+- TypeScript
+- Vite
+- Tailwind CSS
+- Jotai
+- react-hook-form
+- Biome
+
+## Struttura del progetto
+
+```text
+password-generator/
+├── public/
+├── src/
+│   ├── components/
+│   │   ├── HistoryList.tsx
+│   │   ├── PassphraseGenerator.tsx
+│   │   ├── PasswordGenerator.tsx
+│   │   └── SecurityTips.tsx
+│   ├── App.tsx
+│   ├── index.css
+│   ├── main.tsx
+│   ├── store.ts
+│   ├── utils.ts
+│   └── words.json
+├── index.html
+├── package.json
+├── pnpm-lock.yaml
+├── tsconfig.json
+├── tsconfig.app.json
+├── tsconfig.node.json
+├── vite.config.ts
+├── biome.json
+└── README.md
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+## Requisiti
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- Node.js 18+
+- npm, pnpm o un package manager compatibile
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Installazione
 
+```bash
+npm install
+# oppure
+pnpm install
 ```
+
+## Esecuzione in locale
+
+```bash
+npm run dev
+# oppure
+pnpm dev
+```
+
+L’app sarà disponibile di default su:
+
+```text
+http://localhost:5173
+```
+
+## Script disponibili
+
+```bash
+npm run dev      # avvia il server di sviluppo
+npm run build    # compila l’app per produzione
+npm run preview  # preview della build
+npm run lint     # esegue il controllo statico con Biome
+```
+
+## Note sulla sicurezza
+
+Questo tool è utile per generare credenziali forti, ma va usato con buon senso:
+
+- non riutilizzare la stessa password su più servizi
+- preferire password manager affidabili
+- abilitare l’autenticazione a due fattori (2FA) dove possibile
+- usare passphrase o password lunghe e uniche per account importanti
+
+> Il progetto genera valori casuali tramite l’API Web Crypto del browser, che è una buona base per la sicurezza del lato client.
+
+## Contributi
+
+Se vuoi migliorare il progetto, puoi fare fork del repository, lavorare su una branch dedicata e aprire una pull request con le modifiche.
+
+## Licenza
+
+Non è presente un file di licenza nel repository. Verifica con il proprietario del progetto o con il tuo team prima di distribuirlo pubblicamente o in ambito aziendale.
