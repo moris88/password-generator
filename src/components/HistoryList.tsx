@@ -14,7 +14,7 @@ export const HistoryList: React.FC = () => {
 
 	return (
 		<div className="mt-6 w-full max-w-lg rounded-2xl border border-slate-800 bg-slate-900 p-6 text-slate-100 shadow-xl">
-			<div className="mb-4 flex items-center justify-between">
+			<div className="mb-4 flex flex-col items-start justify-between gap-2 sm:flex-row sm:items-center">
 				<h3 className="font-bold text-lg text-slate-200">Cronologia Recenti</h3>
 				<button
 					type="button"

@@ -33,7 +33,13 @@ L’app mostra inoltre una stima dell’entropia e del tempo necessario per un e
   - parole invertite
   - simbolo finale extra
 - Generazione basata su un dizionario di parole
+- Dizionario italiano di oltre 94.000 voci, caricato solo alla prima generazione
 - Stima di sicurezza simile al generatore di password
+
+Il dizionario deriva dalle voci alfabetiche del dizionario italiano Hunspell di
+[LibreOffice](https://github.com/LibreOffice/dictionaries/tree/master/it_IT),
+filtrate e normalizzate. Le note originali e la licenza GPL-3 sono in
+`public/it_IT.README.txt`.
 
 ### Extra
 
@@ -57,6 +63,8 @@ L’app mostra inoltre una stima dell’entropia e del tempo necessario per un e
 ```text
 password-generator/
 ├── public/
+│   ├── it_IT.README.txt
+│   └── passphrase-words.txt
 ├── src/
 │   ├── components/
 │   │   ├── HistoryList.tsx
@@ -68,7 +76,6 @@ password-generator/
 │   ├── main.tsx
 │   ├── store.ts
 │   ├── utils.ts
-│   └── words.json
 ├── index.html
 ├── package.json
 ├── pnpm-lock.yaml

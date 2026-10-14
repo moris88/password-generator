@@ -7,7 +7,7 @@ import {
 	calculateEntropy,
 	getCrackTimeEstimate,
 	getResultEntropia,
-	PASSPHRASE_WORDS,
+	loadPassphraseWords,
 	SEPARATORS,
 } from '../utils'
 
@@ -26,6 +26,8 @@ export const PassphraseGenerator: React.FC = () => {
 	const [entropy, setEntropy] = useState<number>(0)
 	const [crackTime, setCrackTime] = useState<string>('')
 	const [copied, setCopied] = useState<boolean>(false)
+	const [isLoadingDictionary, setIsLoadingDictionary] = useState<boolean>(false)
+	const [dictionaryError, setDictionaryError] = useState<string>('')
 
 	const { register, handleSubmit, reset } = useForm<PassphraseFormValues>({
 		defaultValues: {
@@ -38,13 +40,25 @@ export const PassphraseGenerator: React.FC = () => {
 		},
 	})
 
-	const onSubmit = (data: PassphraseFormValues) => {
+	const onSubmit = async (data: PassphraseFormValues) => {
+		let passphraseWords: string[]
+		setIsLoadingDictionary(true)
+		setDictionaryError('')
+		try {
+			passphraseWords = await loadPassphraseWords()
+		} catch {
+			setDictionaryError('Impossibile caricare il dizionario. Riprova.')
+			return
+		} finally {
+			setIsLoadingDictionary(false)
+		}
+
 		const selectedWords: string[] = []
 		const array = new Uint32Array(data.wordCount * 2)
 		window.crypto.getRandomValues(array)
 
 		for (let i = 0; i < data.wordCount; i++) {
-			let word = PASSPHRASE_WORDS[array[i] % PASSPHRASE_WORDS.length]
+			let word = passphraseWords[array[i] % passphraseWords.length]
 
 			// 1. Maiuscola come prima lettera
 			if (data.capitalize) {
@@ -77,7 +91,7 @@ export const PassphraseGenerator: React.FC = () => {
 		setGeneratedPassphrase(result)
 
 		// Calcolo stimato dell'entropia aggiuntiva basata sulle opzioni attive
-		let effectivePoolSize = PASSPHRASE_WORDS.length
+		let effectivePoolSize = passphraseWords.length
 		if (data.capitalize) effectivePoolSize *= 2 // raddoppia le combinazioni per ogni parola
 		if (data.addNumbers) effectivePoolSize *= 100 // aggiunge fattore numerico
 		if (data.addSymbols) effectivePoolSize *= 8
@@ -241,13 +255,20 @@ export const PassphraseGenerator: React.FC = () => {
 					</div>
 				)}
 
+				{dictionaryError && (
+					<p className="text-red-400 text-xs">{dictionaryError}</p>
+				)}
+
 				{/* Pulsanti Azione */}
 				<div className="flex space-x-3 pt-2">
 					<button
 						type="submit"
-						className="flex-1 rounded-xl bg-sky-600 py-2.5 font-medium text-white transition-colors hover:bg-sky-500"
+						disabled={isLoadingDictionary}
+						className="flex-1 rounded-xl bg-sky-600 py-2.5 font-medium text-white transition-colors hover:bg-sky-500 disabled:cursor-wait disabled:opacity-70"
 					>
-						Genera Passphrase
+						{isLoadingDictionary
+							? 'Caricamento dizionario...'
+							: 'Genera Passphrase'}
 					</button>
 					<button
 						type="button"
