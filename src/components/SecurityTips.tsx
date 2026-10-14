@@ -2,7 +2,7 @@ import type React from 'react'
 
 export const SecurityTips: React.FC = () => {
 	return (
-		<div className="w-full rounded-2xl border border-slate-800 bg-slate-900 p-6 text-slate-100 shadow-xl">
+		<div className="w-full rounded-2xl border border-slate-800 bg-slate-900 p-4 text-slate-100 shadow-xl sm:p-6">
 			<h2 className="mb-4 flex items-center gap-2 font-bold text-amber-400 text-xl">
 				<span>💡</span> Consigli per la Sicurezza
 			</h2>

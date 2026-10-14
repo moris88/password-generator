@@ -114,21 +114,21 @@ export const PasswordGenerator: React.FC = () => {
 	}
 
 	return (
-		<div className="w-full max-w-lg rounded-2xl border border-slate-800 bg-slate-900 p-6 text-slate-100 shadow-xl">
+		<div className="w-full max-w-lg rounded-2xl border border-slate-800 bg-slate-900 p-4 text-slate-100 shadow-xl sm:p-6">
 			<h2 className="mb-4 font-bold text-emerald-400 text-xl">
 				Generatore Password
 			</h2>
 
 			{/* Box Visualizzazione Password */}
-			<div className="mb-6 flex min-h-17.5 items-center justify-between rounded-xl border border-slate-800 bg-slate-950 p-4">
-				<span className="break-all font-mono text-emerald-300 text-xl tracking-wider">
+			<div className="mb-6 flex min-h-17.5 min-w-0 items-center justify-between gap-2 rounded-xl border border-slate-800 bg-slate-950 p-3 sm:p-4">
+				<span className="min-w-0 break-all font-mono text-emerald-300 text-xl tracking-wider">
 					{generatedPassword || '**********'}
 				</span>
 				{generatedPassword && (
 					<button
 						type="button"
 						onClick={copyToClipboard}
-						className="ml-3 shrink-0 rounded-lg bg-emerald-600 px-3 py-1.5 font-medium text-sm text-white transition-colors hover:bg-emerald-500"
+						className="shrink-0 rounded-lg bg-emerald-600 px-3 py-2 font-medium text-sm text-white transition-colors hover:bg-emerald-500 sm:ml-3 sm:py-1.5"
 					>
 						{copied ? 'Copiato!' : 'Copia'}
 					</button>
@@ -210,17 +210,17 @@ export const PasswordGenerator: React.FC = () => {
 				)}
 
 				{/* Pulsanti Azione */}
-				<div className="flex space-x-3 pt-2">
+				<div className="flex gap-3 pt-2">
 					<button
 						type="submit"
-						className="flex-1 rounded-xl bg-emerald-600 py-2.5 font-medium text-white transition-colors hover:bg-emerald-500"
+						className="min-h-11 min-w-0 flex-1 rounded-xl bg-emerald-600 px-2 py-2.5 font-medium text-white transition-colors hover:bg-emerald-500 sm:px-3"
 					>
 						Genera Password
 					</button>
 					<button
 						type="button"
 						onClick={handleReset}
-						className="rounded-xl bg-slate-800 px-4 py-2.5 font-medium text-slate-300 transition-colors hover:bg-slate-700"
+						className="min-h-11 shrink-0 rounded-xl bg-slate-800 px-3 py-2.5 font-medium text-slate-300 transition-colors hover:bg-slate-700 sm:px-4"
 					>
 						Reset
 					</button>
